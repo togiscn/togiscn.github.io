@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>视频会议</title>
+    <link rel="stylesheet" href="http://117.159.25.226/assets/layui/css/layui.css" media="all" />
+    <link href="http://117.159.25.226/assets/layui/css/layui-custom.css" rel="stylesheet" media="all" />
+    <link rel="stylesheet" href="http://117.159.25.226/assets/plugins/font-awesome/css/font-awesome.min.css" media="all" />
+    <link href="http://117.159.25.226/assets/plugins/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="http://117.159.25.226/admin/assets/css/page.css" rel="stylesheet" media="all" />
+    <link href="http://117.159.25.226/admin/assets/css/meeting.css" rel="stylesheet" />
+</head>
+<body class="page-body layui-fluid">
+    <div class="layui-row">
+        <div class="layui-col-md12 page-title">
+            <h4>会议</h4>
+            <div class="page-tools">
+                <div class="layui-btn-group">
+                    <a href="javascript:;" title="窗口分享" class="layui-btn blue-hoki layui-btn-sm shareWindow">
+                        <i class="fa fa-television"></i>
+                    </a>
+                    <a href="javascript:;" title="视频配置" class="layui-btn blue layui-btn-sm videoConfig">
+                        <i class="fa fa-gears"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="layui-col-md12 meetingRoom" id="videoContainer">
+            <div class="meetingVideo" id="localvideo">
+                <div class="header">
+                    <h1>本人</h1>
+                    <a class="meetingBtn circle sm blue maximizeVideoLayer"><i class="fa fa-window-maximize"></i></a>
+                    <a class="meetingBtn circle sm closeVideoLayer" style="display: none"><i class="fa fa-close"></i></a>
+                </div>
+                <div class="body"></div>
+                <div class="footer">
+                    <a href="#" class="meetingBtn none-bg videoMute"><i class="icon iconfont icon-video"></i></a>
+                    <!--<a href="{videoTrack}" class="meetingBtn circle lg "><i class="fa fa-phone"></i></a>-->
+                    <a href="#" class="meetingBtn none-bg audioMute"><i class="fa fa-microphone"></i></a>
+                </div>
+            </div>
+
+            <!--<div id="trackcontainer">
+                <p>远端视频</p>
+                <div id="remotecontainer"></div>
+            </div>-->
+        </div>
+    </div>
+    <div id="roomConfig" class="layui-form display-hide" style="padding: 0; background: #f1f4f7;">
+        <div class="layui-card light bg-inverse">
+            <div class="layui-card-header">配置</div>
+            <div class="layui-card-body">
+                <div class="layui-form-item layui-form-group">
+                    <label class="layui-form-label">
+                        音频设备
+                    </label>
+                    <select id="audioDevice" name="audioDevice" lay-filter="audioDevice" lay-size="sm"></select>
+                </div>
+                <div class="layui-form-item layui-form-group">
+                    <label class="layui-form-label">
+                        视频设备
+                    </label>
+                    <select id="videoDevice" name="videoDevice" lay-filter="videoDevice" lay-size="sm"></select>
+                </div>
+                <div class="layui-form-item layui-form-group">
+                    <label class="layui-form-label">
+                        分辨率
+                    </label>
+                    <select id="rate" name="rate" lay-filter="rate">
+                        <option value="288p">342x288 , 15fps , 300kbps</option>
+                        <option value="480p">640x480 , 15fps , 400kbps</option>
+                        <option value="540p">960x544 , 15fps , 700kbps</option>
+                        <option value="720p" selected="selected">1280x720 , 20fps , 1000kbps</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="remoteVideoTemplate" class="display-hide">
+        <div class="meetingVideo remoteVideo" id="{id}">
+            <div class="header">
+                <h1>{user}</h1>
+                <a class="meetingBtn circle sm blue maximizeVideoLayer"><i class="fa fa-window-maximize"></i></a>
+                <a class="meetingBtn circle sm closeVideoLayer" style="display: none"><i class="fa fa-close"></i></a>
+            </div>
+            <div class="body"></div>
+        </div>
+    </div>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+        <script src="http://117.159.25.226/assets/ie/html5shiv/r29/html5_min.js"></script>
+        <script src="http://117.159.25.226/assets/ie/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="http://117.159.25.226/assets/layui/layui.js"></script>
+    <script src="http://117.159.25.226/assets/layui/layer.config.js"></script>
+    <script src="http://117.159.25.226/assets/Qiniu/pili-rtc-web.js"></script>
+    <script src="http://117.159.25.226/admin/assets/js/qiniu/meeting-room.js"></script>
+    <script>
+        documentReady(['table', 'tablePlus', 'singleSelect'], function () {
+            var ID = getURLParameter("ID");
+            var serviceUrl = '/Services/QiniuService.ashx';
+            MeetingRoom.load({
+                url: serviceUrl, action: 'GetUserJoinInfo', id: ID
+            });
+            return;
+        });
+    </script>
+</body>
+</html>
